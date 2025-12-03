@@ -1,13 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class', // use class strategy for dark mode
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      transitionDuration: {
+        250: '250ms' // custom 250ms duration so duration-250 is valid
+      },
       colors: {
-        // ReLeaf brand colors
         leaf: {
           50: '#f0fdf4',
           100: '#dcfce7',

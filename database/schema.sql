@@ -124,6 +124,31 @@ LEFT JOIN posts p ON u.id = p.user_id AND p.status = 'PUBLISHED'
 LEFT JOIN redemptions r ON u.id = r.user_id
 GROUP BY u.id, u.username, u.carbon_credits;
 
+-- User follows table (for following other users)
+CREATE TABLE user_follows (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    follower_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    following_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(follower_id, following_id),
+    CHECK (follower_id != following_id)
+);
+
+CREATE INDEX idx_user_follows_follower ON user_follows(follower_id);
+CREATE INDEX idx_user_follows_following ON user_follows(following_id);
+
+-- Tag follows table (for following specific tags)
+CREATE TABLE tag_follows (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    tag VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(user_id, tag)
+);
+
+CREATE INDEX idx_tag_follows_user ON tag_follows(user_id);
+CREATE INDEX idx_tag_follows_tag ON tag_follows(tag);
+
 -- Create a function to safely decrement user credits during redemption
 CREATE OR REPLACE FUNCTION redeem_reward(
     p_user_id UUID,

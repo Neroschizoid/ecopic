@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import Navbar from './components/Navbar'
-import FeedPage from './pages/FeedPage'
+import HomePage from './pages/HomePage'
+import DiscoverFeedPage from './pages/DiscoverFeedPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import PostCreatePage from './pages/PostCreatePage'
 import UserProfilePage from './pages/UserProfilePage'
 import RedeemPage from './pages/RedeemPage'
+import PostDetailPage from './pages/PostDetailPage'
 
 function App() {
   return (
@@ -15,10 +17,12 @@ function App() {
         <Navbar />
         <main className="container mx-auto px-4 py-8">
           <Routes>
-            <Route path="/" element={<FeedPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/feed" element={<DiscoverFeedPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/create" element={<PostCreatePage />} />
+            <Route path="/post/:id" element={<PostDetailPage />} />
             <Route path="/profile/:id" element={<UserProfilePage />} />
             <Route path="/redeem" element={<RedeemPage />} />
           </Routes>
